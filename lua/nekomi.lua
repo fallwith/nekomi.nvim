@@ -66,10 +66,12 @@ M.colors = {
 M.options = {
   accent = M.colors.red,
   colors = M.colors,
-  integrations = {},
+  integrations = {
+    gitsigns = true,
+  },
   highlights = function(self)
     -- Reference: https://github.com/catppuccin/nvim/tree/main/lua/catppuccin/groups.
-    return {
+    local hl = {
       -- Editor.
       ColorColumn = { bg = self.colors.surface0 },                                                                    -- used for the columns set with 'colorcolumn'
       Conceal = { fg = self.colors.overlay1 },                                                                        -- placeholder characters substituted for concealed text (see 'conceallevel')
@@ -542,6 +544,20 @@ M.options = {
       gitcommitSummary = { fg = self.colors.text },
       zshKSHFunction = { link = "Function" },
     }
+
+    if self.integrations.gitsigns then
+      hl.GitSignsAdd = { fg = self.colors.green }     -- diff mode: Added line |diff.txt|
+      hl.GitSignsChange = { fg = self.colors.yellow } -- diff mode: Changed line |diff.txt|
+      hl.GitSignsDelete = { fg = self.colors.red }    -- diff mode: Deleted line |diff.txt|
+      hl.GitSignsCurrentLineBlame = { fg = self.colors.surface1 }
+      hl.GitSignsAddPreview = { link = "DiffAdd" }
+      hl.GitSignsDeletePreview = { link = "DiffDelete" }
+      hl.GitSignsAddInline = { bg = darken(self.colors.green, 0.36, self.colors.base) }
+      hl.GitSignsChangeInline = { bg = darken(self.colors.blue, 0.14, self.colors.base) }
+      hl.GitSignsDeleteInline = { bg = darken(self.colors.red, 0.36, self.colors.base) }
+    end
+
+    return hl
   end,
 }
 
